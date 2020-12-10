@@ -16,5 +16,5 @@ def read_input_to_str(filepath: str) -> str:
 
 
 if __name__ == '__main__':
-    example_input = read_input_to_str("Day_X/example_input.txt")
-    inputs = read_input_to_str("Day_X/input.txt")
+    example_input = read_input_to_str("Template/example_input.txt")
+    inputs = read_input_to_str("Template/input.txt")
