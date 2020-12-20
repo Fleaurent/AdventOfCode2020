@@ -79,6 +79,33 @@ def bags_containting_gold_bag(data: str) -> int:
     return n_bags_containing_gold_bag
 
 
+def n_bags_inside(bag: str, bag_rules: Dict[str, Dict], n_bags: int = 1) -> int:
+    bag_contains = bag_rules.get(bag, dict())
+
+    # 1. break condition:
+    if not bag_contains:
+        return n_bags
+
+    # 2. recursively count bags
+    sum_bags = 0
+    for bag_i, n_bags_i in bag_contains.items():
+        sum_bags += n_bags_inside(bag_i, bag_rules, n_bags_i*n_bags) 
+
+    # add the number of current bag + number of bags it contains!!!
+    return n_bags + sum_bags 
+
+
+def bags_inside_gold_bag(data: str) -> int:
+    """
+     How many individual bags are required inside your single shiny gold bag?
+    """
+    # 1. parse bag rules
+    bag_rules = extract_bag_rules(data)
+
+    # subtract the gold bag itself from all bags
+    return n_bags_inside("shiny gold", bag_rules) - 1
+
+
 if __name__ == '__main__':
     # 1. How many bag colors can eventually contain at least one shiny gold bag?
     example_inputs = read_input("Day_7/example_input.txt")
@@ -86,3 +113,9 @@ if __name__ == '__main__':
 
     print(bags_containting_gold_bag(example_inputs))
     print(bags_containting_gold_bag(inputs))
+
+    # 2. How many individual bags are required inside your single shiny gold bag?
+    # example_inputs = """shiny gold bags contain 2 dark red bags.\ndark red bags contain 2 dark orange bags.\ndark orange bags contain no other bags."""
+    example_inputs = read_input("Day_7/example_input2.txt")
+    print(bags_inside_gold_bag(example_inputs))
+    print(bags_inside_gold_bag(inputs))
